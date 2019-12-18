@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+        <div fxHide.gt-xs>
+            <button mat-icon-button (click)="onToggleSidenav()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+        <div>
+            <a [routerLink]="[ '/' ]">
+                <mat-icon>filter_drama</mat-icon>
+                Weather
+            </a>
+        </div>
+        <div fxFlex fxLayout="row" fxLayoutAlign="end" fxHide.xs>
+            <ul class="nav-items" fxLayout="row" fxLayoutGap="10px">
+                <li>
+                    <a [routerLink]="[ '/' ]" routerLinkActive="active">Home</a>
+                </li>
+                <li>
+                    <a [routerLink]="[ '/favorites' ]" routerLinkActive="active">Favorites</a>
+                </li>
+                <li>
+                    <button mat-button>
+                        <mat-icon>color_lense</mat-icon>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </mat-toolbar>

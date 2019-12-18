@@ -1,0 +1,17 @@
+<mat-nav-list>
+    <a  mat-list-item [routerLink]="[ '/home' ]" routerLinkActive="active" (click)="onClose()">
+        <mat-icon >filter_drama</mat-icon>
+        <span class="nav-caption">Home</span>
+    </a>
+    <a mat-list-item [routerLink]="[ '/favorites' ]" routerLinkActive="active" (click)="onClose()">
+        <mat-icon>favorite</mat-icon>
+        <span class="nav-caption">Favorites</span>
+    </a>
+    <mat-list-item>
+            <button mat-icon-button (click)="onClose()">
+                    <mat-icon>color_lense</mat-icon>
+                    <span class="nav-caption">Toggle Dark Theme</span>
+                </button>
+    </mat-list-item>
+        
+</mat-nav-list>
