@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'http://dataservice.accuweather.com/',
+  apiKey: 'SfBFsHGTU3GYr6eygTeXRayxbGQyb9XS'
 };
 
 /*

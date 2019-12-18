@@ -13,6 +13,7 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { WeatherDetailsComponent } from './weather/weather-details/weather-details.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { WeatherTileComponent } from './favorites/weather-tile/weather-tile.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -27,6 +28,8 @@ import { WeatherTileComponent } from './favorites/weather-tile/weather-tile.comp
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     AppMaterialModule,
     FlexLayoutModule
