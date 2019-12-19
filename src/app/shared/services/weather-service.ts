@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 
 import { IFiveDaysWeatherForecast } from '../models/five-days-weather';
 
-const BACKEND_URL = environment.apiUrl + 'forecast/v1';
+const BACKEND_URL = environment.apiUrl + 'forecasts/v1';
 const API_KEY = environment.apiKey;
 
 
