@@ -1,9 +1,57 @@
-<div class="search-bar">
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2rem">
+  <div class="search-bar" fxLayout fxLayoutAlign="center">
     <mat-form-field>
-        <input type="text" matInput [matAutocomplete]="auto">
+        <input type="text" matInput [matAutocomplete]="auto" 
+        [(ngModel)]="searchValue" 
+        (keyup)="onStartSearch()" 
+        placeholder="Start typing a city name">
       </mat-form-field>
       
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectCity($event)">
+        <mat-option *ngFor="let option of cities" [value]="option">{{option.LocalizedName}}</mat-option>
       </mat-autocomplete>
+</div>
+
+<div class="weather-details-wrapper" fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
+  <mat-card fxFlex.gt-xs="90%" fxFlex.xs="100%">
+    <mat-card-header fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutAlign.xs="center center">
+      <div mat-card-avatar class="city-header-image"></div>
+      <mat-card-title>
+        {{ selectedLocation?.LocalizedName }}
+      </mat-card-title>
+      <mat-card-subtitle fxLayoutAlign.xs="center center">
+        <span>{{ selectedLocationWeather?.DailyForecasts[0].Temperature.Maximum.Value }} &deg;</span> 
+        <span>{{ selectedLocationWeather?.DailyForecasts[0].Temperature.Maximum.Unit }}</span>
+      </mat-card-subtitle>
+      <div fxFlex></div>
+      <div fxLayout="column" fxLayoutAlign="start end">
+        <button mat-raised-button> <mat-icon>favorite</mat-icon> Add to favorites</button>
+      </div>
+    </mat-card-header>
+    <mat-card-content *ngIf="selectedLocationWeather" 
+                      fxLayout="column" 
+                      fxLayoutGap="5rem"
+                      fxLayoutAlign="center">
+      <div class="current-condition" fxFlex>
+        <h1>{{ selectedLocationWeather?.DailyForecasts[0].Day.IconPhrase}}</h1>
+      </div>
+      <div class="daily-forecast-cards" fxFlex fxLayout.lt-md="column"
+          fxLayout.gt-sm="row" 
+          fxLayoutGap="3rem"
+          fxLayoutAlign="center">
+        <mat-card *ngFor="let day of selectedLocationWeather.DailyForecasts" fxFlex fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="center center">
+          <mat-card-header>
+            <mat-card-title>
+              {{ day.Day.IconPhrase }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <span>{{ day.Temperature.Maximum.Value }} &deg;</span> 
+            <span>{{ day.Temperature.Maximum.Unit }}</span>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>  
 </div>
