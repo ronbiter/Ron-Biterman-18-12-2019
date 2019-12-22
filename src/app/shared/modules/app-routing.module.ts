@@ -6,6 +6,7 @@ import { FavoritesComponent } from 'src/app/favorites/favorites.component';
 
 const routes: Routes = [
   { path: '', component: WeatherDetailsComponent },
+  { path: 'home/:key', component: WeatherDetailsComponent },
   { path: 'favorites', component: FavoritesComponent }
 ];
 

@@ -1,7 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { StorageMap } from '@ngx-pwa/local-storage';
-import { JSONSchema } from '@ngx-pwa/local-storage';
+import { StorageMap, JSONSchema } from '@ngx-pwa/local-storage';
 
 import { IFavorite } from '../models/favorite.model';
 

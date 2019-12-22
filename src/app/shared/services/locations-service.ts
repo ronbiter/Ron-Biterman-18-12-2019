@@ -37,6 +37,21 @@ export class LocationsService {
         }
     }
 
+    getCurrentLocationByKey(key: string) {
+        const queryParams = `?apikey=${API_KEY}`;
+        if (!environment.production) {
+            this.http.get<IAutocompleteResult[]>('assets/stubs/location/location')
+            .subscribe((data) => {
+                this.currentPosUpdate.next(data);
+            });
+        } else {
+        this.http.get<IAutocompleteResult[]>(BACKEND_URL + '/' + key + queryParams)
+            .subscribe((data) => {
+                this.currentPosUpdate.next(data);
+            });
+        }
+    }
+
     getAutocompleteCitys(value: string) {
         const queryParams = `?apikey=${API_KEY}&q=${value}`;
         if (!environment.production) {

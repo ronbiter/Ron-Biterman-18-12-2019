@@ -8,10 +8,17 @@
         <span class="nav-caption">Favorites</span>
     </a>
     <mat-list-item>
-            <button mat-icon-button (click)="onClose()">
+        <button mat-icon-button (click)="toggleMetric()">
+                <mat-icon>swap_horiz</mat-icon>
+                <span class="nav-caption">Toggle Metric/Imperial</span>
+            </button>
+    </mat-list-item>
+    <mat-list-item>
+            <button mat-icon-button (click)="onToggleTheme()">
                     <mat-icon>color_lense</mat-icon>
                     <span class="nav-caption">Toggle Dark Theme</span>
                 </button>
     </mat-list-item>
+  
         
 </mat-nav-list>

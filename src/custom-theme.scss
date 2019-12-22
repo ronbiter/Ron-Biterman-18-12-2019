@@ -27,7 +27,8 @@ $weather-app-theme: mat-light-theme($weather-app-primary, $weather-app-accent, $
 @include angular-material-theme($weather-app-theme);
 
 
-// Custom Theming for Angular Material
+.dark-theme {
+    // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
@@ -40,17 +41,19 @@ $weather-app-theme: mat-light-theme($weather-app-primary, $weather-app-accent, $
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$weather-app-primary: mat-palette($mat-indigo);
-$weather-app-accent: mat-palette($mat-pink, A200, A100, A400);
+color: $light-primary-text;
+$weather-app-primary-dark: mat-palette($mat-yellow);
+$weather-app-accent-dark: mat-palette($mat-amber, A400, A100, A700);
 
 // The warn palette is optional (defaults to red).
-$weather-app-warn: mat-palette($mat-red);
+$weather-app-warn-dark: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$weather-app-theme: mat-light-theme($weather-app-primary, $weather-app-accent, $weather-app-warn);
+$weather-app-theme-dark: mat-dark-theme($weather-app-primary-dark, $weather-app-accent-dark, $weather-app-warn-dark);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($weather-app-theme);
+@include angular-material-theme($weather-app-theme-dark);
+}
 

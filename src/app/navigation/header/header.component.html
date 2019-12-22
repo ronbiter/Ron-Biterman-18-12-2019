@@ -16,10 +16,16 @@
                     <a [routerLink]="[ '/' ]" routerLinkActive="active">Home</a>
                 </li>
                 <li>
+
                     <a [routerLink]="[ '/favorites' ]" routerLinkActive="active">Favorites</a>
                 </li>
                 <li>
-                    <button mat-button>
+                    <button mat-icon-button (click)="toggleMetric()" matTooltip="toggle Metric/Imperial units">
+                        <mat-icon>swap_horiz</mat-icon>
+                    </button>
+                </li>
+                <li>
+                    <button mat-button (click)="onToggleTheme()" matTooltip="toggle light/dark theme">
                         <mat-icon>color_lense</mat-icon>
                     </button>
                 </li>

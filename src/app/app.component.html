@@ -1,9 +1,9 @@
-<mat-sidenav-container>
+<mat-sidenav-container [ngClass]="{'dark-theme': isDarkTheme | async}"class="mat-app-background">
   <mat-sidenav #sidenav>
-      <app-sidenav-list (CloseSidenav)="sidenav.close()"></app-sidenav-list>
+      <app-sidenav-list (CloseSidenav)="sidenav.close()" (ToggleTheme)="toggleDarkTheme(); sidenav.close()"></app-sidenav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-      <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
+      <app-header (sidenavToggle)="sidenav.toggle()" (ToggleTheme)="toggleDarkTheme();"></app-header>
       <main>
           <router-outlet></router-outlet>
       </main>

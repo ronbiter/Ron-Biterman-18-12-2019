@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 import { IFiveDaysWeatherForecast } from '../models/five-days-weather.model';
 
@@ -19,24 +20,41 @@ export class WeatherService {
 
     constructor(
         private http: HttpClient,
-        private router: Router
-        ) { }
+        private router: Router,
+        private storage: StorageMap
+        ) {
+            this.storage.get('IsMetric', { type: 'boolean' }).subscribe({
+                next: (data) => {
+                    /* Called if data is valid or `undefined` */
+                    this.isMetric = data ? data : false;
+                },
+                error: (error) => { /* Called if data is invalid */ }
+            });
+         }
+
+    get IsMetric() {
+        return this.isMetric;
+    }
 
     toggleMetricUnits() {
         this.isMetric = !this.isMetric;
+        this.storage.set('IsMetric', this.isMetric).subscribe(() => {});
+        window.location.reload();
     }
 
     getCurrentConditions(key: string) {
         const queryParams = `?apikey=${API_KEY}&metric=${this.isMetric}`;
         if (!environment.production) {
-            this.http.get<any>('assets/stubs/currentconditions').subscribe((data) => {
+            this.http.get<any>('assets/stubs/currentconditions/currentconditions').subscribe((data) => {
                 // this.autocompleteResults = data;
-                this.curretnConditionsUpdate.next(data);
+                data[0].Key = key;
+                this.curretnConditionsUpdate.next(data[0]);
             });
         } else {
             this.http.get<any>(BACKEND_URL + 'currentconditions/v1/' + key + queryParams)
             .subscribe((data) => {
                 // this.autocompleteResults = data;
+                data.Key = key;
                 this.curretnConditionsUpdate.next(data);
             });
         }

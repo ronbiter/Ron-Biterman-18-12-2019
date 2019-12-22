@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { WeatherService } from 'src/app/shared/services/weather-service';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -8,10 +9,20 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class SidenavListComponent implements OnInit {
 
   @Output() CloseSidenav = new EventEmitter();
+  @Output() ToggleTheme = new EventEmitter();
 
-  constructor() { }
+  constructor(private weatherService: WeatherService) { }
 
   ngOnInit() {
+  }
+
+  toggleMetric() {
+    this.weatherService.toggleMetricUnits();
+    this.CloseSidenav.emit();
+  }
+
+  onToggleTheme() {
+    this.ToggleTheme.emit();
   }
 
   onClose() {

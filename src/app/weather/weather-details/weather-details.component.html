@@ -25,10 +25,10 @@
       </mat-card-subtitle>
       <div fxFlex></div>
       <div fxLayout="column" fxLayoutAlign="start end">
-        <button *ngIf="!isLocationInFavs()" mat-raised-button (click)="addLocationToFavorite()">
-          <mat-icon>favorite</mat-icon> Add to favorites
+        <button *ngIf="!isLocationInFavs()" mat-raised-button color="primary" (click)="addLocationToFavorite()">
+          <mat-icon>favorite_border</mat-icon> Add to favorites
         </button>
-        <button *ngIf="isLocationInFavs()" mat-raised-button (click)="removeLocationToFavorite()">
+        <button *ngIf="isLocationInFavs()" mat-raised-button color="accent" (click)="removeLocationToFavorite()">
           <mat-icon>favorite</mat-icon> Remove from favorites
         </button>
       </div>
@@ -45,14 +45,17 @@
           fxLayoutGap="3rem"
           fxLayoutAlign="center">
         <mat-card *ngFor="let day of selectedLocationWeather.DailyForecasts" fxFlex fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="center center">
-          <mat-card-header>
+          <mat-card-header class="text-align-center">
             <mat-card-title>
-              {{ day.Day.IconPhrase }}
+              {{ day.Date | date:'EEEE' }}
             </mat-card-title>
+            <mat-card-subtitle>
+              <span>{{ day.Temperature.Maximum.Value }} &deg;</span> 
+              <span>{{ day.Temperature.Maximum.Unit }}</span>
+            </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <span>{{ day.Temperature.Maximum.Value }} &deg;</span> 
-            <span>{{ day.Temperature.Maximum.Unit }}</span>
+            {{ day.Day.IconPhrase }}
           </mat-card-content>
         </mat-card>
       </div>

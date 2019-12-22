@@ -7,6 +7,8 @@ import { IFiveDaysWeatherForecast } from 'src/app/shared/models/five-days-weathe
 import { LocationsService } from '../../shared/services/locations-service';
 import { WeatherService } from '../../shared/services/weather-service';
 import { FavoriteService } from '../../shared/services/favorite-service';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-weather-details',
@@ -20,6 +22,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   currentLatLong: {};
   currentLocation: any;
   selectedLocation: any;
+  locationFromRoute: any;
   selectedLocationWeather: IFiveDaysWeatherForecast;
   private citiesSub: Subscription;
   private currentPosSub: Subscription;
@@ -28,11 +31,16 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
 
   constructor(public locationService: LocationsService,
               public weatherService: WeatherService,
-              public favoritesService: FavoriteService) { }
+              public favoritesService: FavoriteService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
 
-    if (navigator.geolocation) {
+    this.locationFromRoute = this.route.snapshot.paramMap.get('key');
+  
+    if (this.locationFromRoute) {
+      this.locationService.getCurrentLocationByKey(this.locationFromRoute);
+    } else if (navigator.geolocation) {
       const geoSuccess = (position) => {
           this.currentLatLong = position;
           this.locationService.getCurrentLocationByLatLong(position.coords.latitude, position.coords.longitude);
@@ -90,6 +98,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   }
 
   isLocationInFavs() {
+    if (!this.selectedLocation) { return false; }
     const favs = this.favoritesService.getFavorites();
     for (const fav of favs) {
       if (fav.key === this.selectedLocation.Key) {
@@ -109,5 +118,6 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.citiesSub.unsubscribe();
     this.currentPosSub.unsubscribe();
+    this.weaterForecastSub.unsubscribe();
   }
 }

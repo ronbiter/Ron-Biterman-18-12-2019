@@ -1,0 +1,25 @@
+[
+  {
+    "LocalObservationDateTime": "2019-12-22T12:25:00+02:00",
+    "EpochTime": 1577010300,
+    "WeatherText": "Sunny",
+    "WeatherIcon": 1,
+    "HasPrecipitation": false,
+    "PrecipitationType": null,
+    "IsDayTime": true,
+    "Temperature": {
+      "Metric": {
+        "Value": 19.6,
+        "Unit": "C",
+        "UnitType": 17
+      },
+      "Imperial": {
+        "Value": 67,
+        "Unit": "F",
+        "UnitType": 18
+      }
+    },
+    "MobileLink": "http://m.accuweather.com/en/il/ashdod/215613/current-weather/215613?lang=en-us",
+    "Link": "http://www.accuweather.com/en/il/ashdod/215613/current-weather/215613?lang=en-us"
+  }
+]
