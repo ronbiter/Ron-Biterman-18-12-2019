@@ -1,8 +1,8 @@
 <mat-card class="text-align-center">
     <mat-card-title>{{location?.cityName}}</mat-card-title>
     <mat-card-content>
-        <p *ngIf="weatherService.IsMetric">{{locationWeather?.Temperature.Metric.Value}} &deg; {{locationWeather?.Temperature.Metric.Unit}}</p>
-        <p *ngIf="!weatherService.IsMetric">{{locationWeather?.Temperature.Imperial.Value}} &deg; {{locationWeather?.Temperature.Imperial.Unit}}</p>
+        <p *ngIf="weatherService.IsMetric">{{locationWeather?.Temperature?.Metric.Value}} &deg; {{locationWeather?.Temperature?.Metric.Unit}}</p>
+        <p *ngIf="!weatherService.IsMetric">{{locationWeather?.Temperature?.Imperial.Value}} &deg; {{locationWeather?.Temperature?.Imperial.Unit}}</p>
         <p>{{locationWeather?.WeatherText}}</p>
     </mat-card-content>
 </mat-card>
