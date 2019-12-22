@@ -27,12 +27,26 @@ export class LocationsService {
         if (!environment.production) {
             this.http.get<IAutocompleteResult[]>('assets/stubs/location/getLocationByLatLong')
             .subscribe((data) => {
-                this.currentPosUpdate.next(data);
+                if (data) {
+                    this.currentPosUpdate.next(data);
+                } else {
+                    this.currentPosUpdate.error(false);
+                }
+            }, error => {
+                this.currentPosUpdate.error(false);
+
             });
         } else {
         this.http.get<IAutocompleteResult[]>(BACKEND_URL + '/cities/geoposition/search' + queryParams)
             .subscribe((data) => {
                 this.currentPosUpdate.next(data);
+                if (data) {
+                    this.currentPosUpdate.next(data);
+                } else {
+                    this.currentPosUpdate.error(false);
+                }
+            }, error => {
+                this.currentPosUpdate.error(false);
             });
         }
     }
@@ -42,12 +56,25 @@ export class LocationsService {
         if (!environment.production) {
             this.http.get<IAutocompleteResult[]>('assets/stubs/location/location')
             .subscribe((data) => {
-                this.currentPosUpdate.next(data);
+                if (data) {
+                    this.currentPosUpdate.next(data);
+                } else {
+                    this.currentPosUpdate.error(false);
+                }
+            }, error => {
+                this.currentPosUpdate.error(false);
             });
         } else {
         this.http.get<IAutocompleteResult[]>(BACKEND_URL + '/' + key + queryParams)
             .subscribe((data) => {
-                this.currentPosUpdate.next(data);
+                if (data) {
+                    this.currentPosUpdate.next(data);
+                } else {
+                    this.currentPosUpdate.error(false);
+                }
+            }, error => {
+                this.currentPosUpdate.error(false);
+
             });
         }
     }
@@ -57,12 +84,24 @@ export class LocationsService {
         if (!environment.production) {
             this.http.get<IAutocompleteResult[]>('assets/stubs/location/autocomplete')
             .subscribe((data) => {
-                this.autocompleteUpdate.next([...data]);
+                if (data) {
+                    this.autocompleteUpdate.next([...data]);
+                } else {
+                    this.autocompleteUpdate.error(false);
+                }
+            }, error => {
+                this.autocompleteUpdate.error(false);
             });
         } else {
             this.http.get<IAutocompleteResult[]>(BACKEND_URL + '/cities/autocomplete' + queryParams)
             .subscribe((data) => {
-                this.autocompleteUpdate.next([...data]);
+                if (data) {
+                    this.autocompleteUpdate.next([...data]);
+                } else {
+                    this.autocompleteUpdate.error(false);
+                }
+            }, error => {
+                this.autocompleteUpdate.error(false);
             });
         }
     }

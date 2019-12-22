@@ -9,6 +9,8 @@ import { WeatherService } from '../../shared/services/weather-service';
 import { FavoriteService } from '../../shared/services/favorite-service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, debounceTime } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-weather-details',
@@ -34,7 +36,8 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   constructor(public locationService: LocationsService,
               public weatherService: WeatherService,
               public favoritesService: FavoriteService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private snackbar: MatSnackBar) { }
 
   ngOnInit() {
 
@@ -60,12 +63,22 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
           this.isSearching = false;
           this.cities = data;
+      }, error => {
+        this.snackbar.open('Oops, something went wronk', 'dismiss', {
+          duration: 4000,
+        });
+        this.isLoading = false;
       });
 
     this.weaterForecastSub = this.weatherService.getFiveDaysForecastUpdateListener()
       .subscribe((data) => {
           this.isLoading = false;
           this.selectedLocationWeather = data;
+      }, error => {
+        this.snackbar.open('Oops, something went wronk', 'dismiss', {
+          duration: 4000,
+        });
+        this.isLoading = false;
       });
 
     this.currentPosSub = this.locationService.getCurrentLocationUpdateListener()
@@ -73,6 +86,11 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
         this.currentLocation = data;
         this.selectedLocation = data;
         this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);
+      }, error => {
+        this.snackbar.open('Oops, something went wronk', 'dismiss', {
+          duration: 4000,
+        });
+        this.isLoading = false;
       });
 
     this.searchSubject

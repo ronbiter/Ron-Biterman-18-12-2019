@@ -29,7 +29,10 @@ export class FavoriteService {
                 this.favorites = favs ? favs : [];
                 this.favoriteUpdate.next([...this.favorites]);
             },
-            error: (error) => { /* Called if data is invalid */ }
+            error: (error) => {
+                /* Called if data is invalid */
+                this.favorites = [];
+             }
         });
     }
 
@@ -45,9 +48,6 @@ export class FavoriteService {
 
     getFavorites() {
         return [...this.favorites];
-        // this.storage.get<IFavorite[]>(FAV_NAME, schema).subscribe((favs) => {
-        //     this.favoriteUpdate.next([...this.favorites]);
-        //   });
     }
 
     removeFromFavorites(key: string) {

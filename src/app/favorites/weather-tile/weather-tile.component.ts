@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IFavorite } from '../../shared/models/favorite.model';
 import { WeatherService } from '../../shared/services/weather-service';
 import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-weather-tile',
@@ -15,7 +16,8 @@ export class WeatherTileComponent implements OnInit {
   locationWeather: any;
   private weaterForecastSub: Subscription;
 
-  constructor(public weatherService: WeatherService) { }
+  constructor(public weatherService: WeatherService,
+              private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.weatherService.getCurrentConditions(this.location.key);
@@ -24,7 +26,11 @@ export class WeatherTileComponent implements OnInit {
         if (data.Key === this.location.key) {
           this.locationWeather = data;
         }
-    });
+    }, error => [
+      this.snackbar.open('Oops, something went wronk', 'dismiss', {
+        duration: 4000,
+      })
+    ]);
   }
 
 }

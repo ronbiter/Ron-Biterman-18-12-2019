@@ -45,17 +45,28 @@ export class WeatherService {
     getCurrentConditions(key: string) {
         const queryParams = `?apikey=${API_KEY}&metric=${this.isMetric}`;
         if (!environment.production) {
-            this.http.get<any>('assets/stubs/currentconditions/currentconditions').subscribe((data) => {
-                // this.autocompleteResults = data;
-                data[0].Key = key;
-                this.curretnConditionsUpdate.next(data[0]);
+            this.http.get<any>('assets/stubs/currentconditions/currentconditions')
+            .subscribe((data) => {
+                if (data) {
+                    data[0].Key = key;
+                    this.curretnConditionsUpdate.next(data[0]);
+                } else {
+                    this.curretnConditionsUpdate.error(false);
+                }
+            }, error => {
+                this.curretnConditionsUpdate.error(false);
             });
         } else {
             this.http.get<any>(BACKEND_URL + 'currentconditions/v1/' + key + queryParams)
             .subscribe((data) => {
-                // this.autocompleteResults = data;
-                data.Key = key;
-                this.curretnConditionsUpdate.next(data);
+                if (data) {
+                    data[0].Key = key;
+                    this.curretnConditionsUpdate.next(data[0]);
+                } else {
+                    this.curretnConditionsUpdate.error(false);
+                }
+            }, error => {
+                this.curretnConditionsUpdate.error(false);
             });
         }
     }
@@ -63,15 +74,26 @@ export class WeatherService {
     getWeatherForCityFiveDays(key: string) {
         const queryParams = `?apikey=${API_KEY}&metric=${this.isMetric}`;
         if (!environment.production) {
-            this.http.get<IFiveDaysWeatherForecast>('assets/stubs/forecast/fiveDay').subscribe((data) => {
-                // this.autocompleteResults = data;
-                this.fiveDaysForecastUpdate.next(data);
+            this.http.get<IFiveDaysWeatherForecast>('assets/stubs/forecast/fiveDay')
+            .subscribe((data) => {
+                if (data) {
+                    this.fiveDaysForecastUpdate.next(data);
+                } else {
+                    this.fiveDaysForecastUpdate.error(false);
+                }
+            }, error => {
+                this.fiveDaysForecastUpdate.error(false);
             });
         } else {
             this.http.get<IFiveDaysWeatherForecast>(BACKEND_URL + 'forecasts/v1/daily/5day/' + key + queryParams)
             .subscribe((data) => {
-                // this.autocompleteResults = data;
-                this.fiveDaysForecastUpdate.next(data);
+                if (data) {
+                    this.fiveDaysForecastUpdate.next(data);
+                } else {
+                    this.fiveDaysForecastUpdate.error(false);
+                }
+            }, error => {
+                this.fiveDaysForecastUpdate.error(false);
             });
         }
     }
