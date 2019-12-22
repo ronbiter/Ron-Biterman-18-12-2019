@@ -12,8 +12,12 @@
       </mat-autocomplete>
 </div>
 
+
+
 <div class="weather-details-wrapper" fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
-  <mat-card fxFlex.gt-xs="90%" fxFlex.xs="100%">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+  <mat-card *ngIf="!isLoading" fxFlex.gt-xs="90%" fxFlex.xs="100%">
     <mat-card-header fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutAlign.xs="center center">
       <div mat-card-avatar class="city-header-image"></div>
       <mat-card-title>

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 
 import { IAutocompleteResult } from '../../shared/models/autocomplete-result.model';
 import { IFiveDaysWeatherForecast } from 'src/app/shared/models/five-days-weather.model';
@@ -8,7 +8,7 @@ import { LocationsService } from '../../shared/services/locations-service';
 import { WeatherService } from '../../shared/services/weather-service';
 import { FavoriteService } from '../../shared/services/favorite-service';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-weather-details',
@@ -17,6 +17,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class WeatherDetailsComponent implements OnInit, OnDestroy {
 
+  searchSubject: Subject<string> = new Subject();
   searchValue = '';
   cities: IAutocompleteResult[] = [];
   currentLatLong: {};
@@ -27,7 +28,8 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   private citiesSub: Subscription;
   private currentPosSub: Subscription;
   private weaterForecastSub: Subscription;
-  isLoading = false;
+  isLoading = true;
+  isSearching = false;
 
   constructor(public locationService: LocationsService,
               public weatherService: WeatherService,
@@ -37,7 +39,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.locationFromRoute = this.route.snapshot.paramMap.get('key');
-  
+
     if (this.locationFromRoute) {
       this.locationService.getCurrentLocationByKey(this.locationFromRoute);
     } else if (navigator.geolocation) {
@@ -56,7 +58,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
 
     this.citiesSub = this.locationService.getAutocompleteUpdateListener()
       .subscribe((data) => {
-          this.isLoading = false;
+          this.isSearching = false;
           this.cities = data;
       });
 
@@ -72,6 +74,18 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
         this.selectedLocation = data;
         this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);
       });
+
+    this.searchSubject
+      .pipe(debounceTime(700))
+      .subscribe(() => {
+        if (this.searchValue.length >= 2) {
+          this.isSearching = true;
+          this.locationService.getAutocompleteCitys(this.searchValue);
+        } else {
+          this.cities = [];
+        }
+        }
+      );
   }
 
   getDefaultLocation() {
@@ -82,12 +96,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   }
 
   onStartSearch() {
-    if (this.searchValue.length >= 2) {
-      this.isLoading = true;
-      this.locationService.getAutocompleteCitys(this.searchValue);
-    } else {
-      this.cities = [];
-    }
+    this.searchSubject.next();
   }
 
   onSelectCity($event) {
