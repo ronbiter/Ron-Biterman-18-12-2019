@@ -15,6 +15,7 @@ import { WeatherDetailsComponent } from './weather/weather-details/weather-detai
 import { FavoritesComponent } from './favorites/favorites.component';
 import { WeatherTileComponent } from './favorites/weather-tile/weather-tile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AppMaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    StorageModule.forRoot({ IDBNoWrap: true })
   ],
   providers: [],
   bootstrap: [AppComponent]

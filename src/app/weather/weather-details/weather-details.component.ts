@@ -1,11 +1,12 @@
-import { IAutocompleteResult } from './../autocomplete-result-model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { LocationsService } from './../locations-service';
-import { WeatherService } from 'src/app/shared/services/weather-service';
-import { IFiveDaysWeatherForecast } from 'src/app/shared/models/five-days-weather';
-import { FormControl } from '@angular/forms';
+import { IAutocompleteResult } from '../../shared/models/autocomplete-result.model';
+import { IFiveDaysWeatherForecast } from 'src/app/shared/models/five-days-weather.model';
+
+import { LocationsService } from '../../shared/services/locations-service';
+import { WeatherService } from '../../shared/services/weather-service';
+import { FavoriteService } from '../../shared/services/favorite-service';
 
 @Component({
   selector: 'app-weather-details',
@@ -19,14 +20,15 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   currentLatLong: {};
   currentLocation: any;
   selectedLocation: any;
-  selectedLocationWeather: IFiveDaysWeatherForecast; // [TODO] change later to an interface
+  selectedLocationWeather: IFiveDaysWeatherForecast;
   private citiesSub: Subscription;
   private currentPosSub: Subscription;
   private weaterForecastSub: Subscription;
   isLoading = false;
 
   constructor(public locationService: LocationsService,
-              public weatherService: WeatherService) { }
+              public weatherService: WeatherService,
+              public favoritesService: FavoriteService) { }
 
   ngOnInit() {
 
@@ -57,11 +59,11 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
       });
 
     this.currentPosSub = this.locationService.getCurrentLocationUpdateListener()
-          .subscribe((data) => {
-            this.currentLocation = data;
-            this.selectedLocation = data;
-            this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);
-          });
+      .subscribe((data) => {
+        this.currentLocation = data;
+        this.selectedLocation = data;
+        this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);
+      });
   }
 
   getDefaultLocation() {
@@ -72,7 +74,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   }
 
   onStartSearch() {
-    if (this.searchValue.length > 2) {
+    if (this.searchValue.length >= 2) {
       this.isLoading = true;
       this.locationService.getAutocompleteCitys(this.searchValue);
     } else {
@@ -85,6 +87,23 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
     this.searchValue = $event.option.value.LocalizedName;
     this.selectedLocation = $event.option.value;
     this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);
+  }
+
+  isLocationInFavs() {
+    const favs = this.favoritesService.getFavorites();
+    for (const fav of favs) {
+      if (fav.key === this.selectedLocation.Key) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  addLocationToFavorite() {
+    this.favoritesService.addToFavorites(this.selectedLocation.LocalizedName, this.selectedLocation.Key);
+  }
+  removeLocationToFavorite() {
+    this.favoritesService.removeFromFavorites(this.selectedLocation.Key);
   }
 
   ngOnDestroy(): void {

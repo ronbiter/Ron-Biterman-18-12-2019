@@ -25,7 +25,12 @@
       </mat-card-subtitle>
       <div fxFlex></div>
       <div fxLayout="column" fxLayoutAlign="start end">
-        <button mat-raised-button> <mat-icon>favorite</mat-icon> Add to favorites</button>
+        <button *ngIf="!isLocationInFavs()" mat-raised-button (click)="addLocationToFavorite()">
+          <mat-icon>favorite</mat-icon> Add to favorites
+        </button>
+        <button *ngIf="isLocationInFavs()" mat-raised-button (click)="removeLocationToFavorite()">
+          <mat-icon>favorite</mat-icon> Remove from favorites
+        </button>
       </div>
     </mat-card-header>
     <mat-card-content *ngIf="selectedLocationWeather" 
