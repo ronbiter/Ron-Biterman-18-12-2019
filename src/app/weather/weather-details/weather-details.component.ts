@@ -34,16 +34,14 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
       const geoSuccess = (position) => {
           this.currentLatLong = position;
           this.locationService.getCurrentLocationByLatLong(position.coords.latitude, position.coords.longitude);
-          this.currentPosSub = this.locationService.getCurrentLocationUpdateListener()
-            .subscribe((data) => {
-              this.currentLocation = data;
-              this.selectedLocation = data;
-              this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);
-            });
       };
-      navigator.geolocation.getCurrentPosition(geoSuccess);
+      const geoFail = () => {
+        this.getDefaultLocation();
+      };
+      navigator.geolocation.getCurrentPosition(geoSuccess, geoFail);
     } else {
       console.log('Geolocation is not supported for this Browser/OS.');
+      this.getDefaultLocation();
     }
 
     this.citiesSub = this.locationService.getAutocompleteUpdateListener()
@@ -57,6 +55,20 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.selectedLocationWeather = data;
       });
+
+    this.currentPosSub = this.locationService.getCurrentLocationUpdateListener()
+          .subscribe((data) => {
+            this.currentLocation = data;
+            this.selectedLocation = data;
+            this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);
+          });
+  }
+
+  getDefaultLocation() {
+    console.log('getting default location');
+    const lat = 32.109333;
+    const long = 34.855499;
+    this.locationService.getCurrentLocationByLatLong(lat, long);
   }
 
   onStartSearch() {
