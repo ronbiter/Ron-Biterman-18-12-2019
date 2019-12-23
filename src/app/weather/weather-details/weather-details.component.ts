@@ -102,8 +102,9 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   }
 
   getDefaultLocation() {
-    const lat = 32.109333;
-    const long = 34.855499;
+    // tel aviv lat long coords
+    const lat = 32.074826;
+    const long = 34.777538;
     this.locationService.getCurrentLocationByLatLong(lat, long);
   }
 
