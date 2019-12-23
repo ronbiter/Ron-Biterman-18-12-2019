@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { IAutocompleteResult } from '../models/autocomplete-result.model';
@@ -16,10 +15,7 @@ export class LocationsService {
     private autocompleteUpdate = new Subject<IAutocompleteResult[]>();
     private currentPosUpdate = new Subject<any>();
 
-    constructor(
-        private http: HttpClient,
-        private router: Router
-        ) { }
+    constructor(private http: HttpClient) { }
 
 
     getCurrentLocationByLatLong(lat: number, long: number) {

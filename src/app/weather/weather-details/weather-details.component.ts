@@ -8,7 +8,7 @@ import { LocationsService } from '../../shared/services/locations-service';
 import { WeatherService } from '../../shared/services/weather-service';
 import { FavoriteService } from '../../shared/services/favorite-service';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, debounceTime } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -102,7 +102,6 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   }
 
   getDefaultLocation() {
-    console.log('getting default location');
     const lat = 32.109333;
     const long = 34.855499;
     this.locationService.getCurrentLocationByLatLong(lat, long);
@@ -113,7 +112,6 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSelectCity($event) {
-    console.log($event);
     this.searchValue = $event.option.value.LocalizedName;
     this.selectedLocation = $event.option.value;
     this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);

@@ -25,11 +25,9 @@ export class WeatherService {
         ) {
             this.storage.get('IsMetric', { type: 'boolean' }).subscribe({
                 next: (data) => {
-                    /* Called if data is valid or `undefined` */
                     this.isMetric = data ? data : false;
                 },
-                error: (error) => {
-                    /* Called if data is invalid */
+                error: () => {
                     this.isMetric = true;
                  }
             });

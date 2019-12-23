@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
 
   constructor(private themeService: ThemeService,
               private storage: StorageMap) { }
+
   ngOnInit() {
     this.storage.get('IsDarkTheme', { type: 'boolean' })
       .subscribe((val) => {

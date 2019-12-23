@@ -25,12 +25,10 @@ export class FavoriteService {
     constructor(private storage: StorageMap) {
         this.storage.get<IFavorite[]>(FAV_NAME, schema).subscribe({
             next: (favs) => {
-                /* Called if data is valid or `undefined` */
                 this.favorites = favs ? favs : [];
                 this.favoriteUpdate.next([...this.favorites]);
             },
             error: (error) => {
-                /* Called if data is invalid */
                 this.favorites = [];
              }
         });
