@@ -55,7 +55,8 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
       };
       navigator.geolocation.getCurrentPosition(geoSuccess, geoFail);
     } else {
-      console.log('Geolocation is not supported for this Browser/OS.');
+      const msg = 'Geolocation is not supported for this Browser/OS.';
+      this.openErrorSnackbar(msg);
       this.getDefaultLocation();
     }
 
@@ -64,9 +65,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
           this.isSearching = false;
           this.cities = data;
       }, error => {
-        this.snackbar.open('Oops, something went wronk', 'dismiss', {
-          duration: 4000,
-        });
+        this.openErrorSnackbar(error.Message);
         this.isLoading = false;
       });
 
@@ -75,9 +74,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.selectedLocationWeather = data;
       }, error => {
-        this.snackbar.open('Oops, something went wronk', 'dismiss', {
-          duration: 4000,
-        });
+        this.openErrorSnackbar(error.Message);
         this.isLoading = false;
       });
 
@@ -87,9 +84,7 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
         this.selectedLocation = data;
         this.weatherService.getWeatherForCityFiveDays(this.selectedLocation.Key);
       }, error => {
-        this.snackbar.open('Oops, something went wronk', 'dismiss', {
-          duration: 4000,
-        });
+        this.openErrorSnackbar(error.Message);
         this.isLoading = false;
       });
 
@@ -140,6 +135,14 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   }
   removeLocationToFavorite() {
     this.favoritesService.removeFromFavorites(this.selectedLocation.Key);
+  }
+
+  openErrorSnackbar(msg?: string) {
+    const errorMsg = msg && msg.length > 0 ? msg : 'Oops, something went wrong';
+    this.snackbar.open(errorMsg, 'dismiss', {
+      duration: 4000,
+      panelClass: 'shake-horizontal'
+    });
   }
 
   ngOnDestroy(): void {

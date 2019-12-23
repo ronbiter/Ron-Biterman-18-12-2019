@@ -26,11 +26,17 @@ export class WeatherTileComponent implements OnInit {
         if (data.Key === this.location.key) {
           this.locationWeather = data;
         }
-    }, error => [
-      this.snackbar.open('Oops, something went wronk', 'dismiss', {
-        duration: 4000,
-      })
-    ]);
+    }, error => {
+      this.openErrorSnackbar(error.Message);
+    });
+  }
+
+  openErrorSnackbar(msg?: string) {
+    const errorMsg = msg && msg.length > 0 ? msg : 'Oops, something went wrongs';
+    this.snackbar.open(errorMsg, 'dismiss', {
+      duration: 4000,
+      panelClass: 'shake-horizontal'
+    });
   }
 
 }

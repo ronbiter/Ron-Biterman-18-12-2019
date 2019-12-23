@@ -25,28 +25,34 @@ export class LocationsService {
     getCurrentLocationByLatLong(lat: number, long: number) {
         const queryParams = `?apikey=${API_KEY}&q=${lat},${long}&toplevel=true`;
         if (!environment.production) {
-            this.http.get<IAutocompleteResult[]>('assets/stubs/location/getLocationByLatLong')
+            this.http.get<IAutocompleteResult>('assets/stubs/location/getLocationByLatLong')
             .subscribe((data) => {
-                if (data) {
+                if (data && data.Key) {
                     this.currentPosUpdate.next(data);
                 } else {
-                    this.currentPosUpdate.error(false);
+                    const error = {
+                        Message: 'cities/geoposition/search api error'
+                    };
+                    this.currentPosUpdate.error(error);
                 }
             }, error => {
-                this.currentPosUpdate.error(false);
+                this.currentPosUpdate.error(error);
 
             });
         } else {
-        this.http.get<IAutocompleteResult[]>(BACKEND_URL + '/cities/geoposition/search' + queryParams)
+        this.http.get<IAutocompleteResult>(BACKEND_URL + '/cities/geoposition/search' + queryParams)
             .subscribe((data) => {
                 this.currentPosUpdate.next(data);
-                if (data) {
+                if (data && data.Key) {
                     this.currentPosUpdate.next(data);
                 } else {
-                    this.currentPosUpdate.error(false);
+                    const error = {
+                        Message: 'cities/geoposition/search api error'
+                    };
+                    this.currentPosUpdate.error(error);
                 }
             }, error => {
-                this.currentPosUpdate.error(false);
+                this.currentPosUpdate.error(error);
             });
         }
     }
@@ -54,26 +60,32 @@ export class LocationsService {
     getCurrentLocationByKey(key: string) {
         const queryParams = `?apikey=${API_KEY}`;
         if (!environment.production) {
-            this.http.get<IAutocompleteResult[]>('assets/stubs/location/location')
+            this.http.get<IAutocompleteResult>('assets/stubs/location/location')
             .subscribe((data) => {
-                if (data) {
+                if (data && data.Key) {
                     this.currentPosUpdate.next(data);
                 } else {
-                    this.currentPosUpdate.error(false);
+                    const error = {
+                        Message: 'location api error'
+                    };
+                    this.currentPosUpdate.error(error);
                 }
             }, error => {
-                this.currentPosUpdate.error(false);
+                this.currentPosUpdate.error(error);
             });
         } else {
-        this.http.get<IAutocompleteResult[]>(BACKEND_URL + '/' + key + queryParams)
+        this.http.get<IAutocompleteResult>(BACKEND_URL + '/' + key + queryParams)
             .subscribe((data) => {
-                if (data) {
+                if (data && data.Key) {
                     this.currentPosUpdate.next(data);
                 } else {
-                    this.currentPosUpdate.error(false);
+                    const error = {
+                        Message: 'location api error'
+                    };
+                    this.currentPosUpdate.error(error);
                 }
             }, error => {
-                this.currentPosUpdate.error(false);
+                this.currentPosUpdate.error(error);
 
             });
         }
@@ -84,24 +96,30 @@ export class LocationsService {
         if (!environment.production) {
             this.http.get<IAutocompleteResult[]>('assets/stubs/location/autocomplete')
             .subscribe((data) => {
-                if (data) {
+                if (data && data.length >= 0) {
                     this.autocompleteUpdate.next([...data]);
                 } else {
-                    this.autocompleteUpdate.error(false);
+                    const error = {
+                        Message: 'cities/autocomplete api error'
+                    };
+                    this.autocompleteUpdate.error(error);
                 }
             }, error => {
-                this.autocompleteUpdate.error(false);
+                this.autocompleteUpdate.error(error);
             });
         } else {
             this.http.get<IAutocompleteResult[]>(BACKEND_URL + '/cities/autocomplete' + queryParams)
             .subscribe((data) => {
-                if (data) {
+                if (data && data.length >= 0) {
                     this.autocompleteUpdate.next([...data]);
                 } else {
-                    this.autocompleteUpdate.error(false);
+                    const error = {
+                        Message: 'cities/autocomplete api error'
+                    };
+                    this.autocompleteUpdate.error(error);
                 }
             }, error => {
-                this.autocompleteUpdate.error(false);
+                this.autocompleteUpdate.error(error);
             });
         }
     }

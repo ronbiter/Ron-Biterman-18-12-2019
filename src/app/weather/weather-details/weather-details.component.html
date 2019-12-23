@@ -48,7 +48,7 @@
           fxLayout.gt-sm="row" 
           fxLayoutGap="3rem"
           fxLayoutAlign="center">
-        <mat-card *ngFor="let day of selectedLocationWeather.DailyForecasts" fxFlex fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="center center">
+        <mat-card class="rotate-in-2-cw" *ngFor="let day of selectedLocationWeather.DailyForecasts" fxFlex fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="center center">
           <mat-card-header class="text-align-center">
             <mat-card-title>
               {{ day.Date | date:'EEEE' }}

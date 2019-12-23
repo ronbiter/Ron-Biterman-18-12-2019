@@ -28,7 +28,10 @@ export class WeatherService {
                     /* Called if data is valid or `undefined` */
                     this.isMetric = data ? data : false;
                 },
-                error: (error) => { /* Called if data is invalid */ }
+                error: (error) => {
+                    /* Called if data is invalid */
+                    this.isMetric = true;
+                 }
             });
          }
 
@@ -47,26 +50,32 @@ export class WeatherService {
         if (!environment.production) {
             this.http.get<any>('assets/stubs/currentconditions/currentconditions')
             .subscribe((data) => {
-                if (data) {
+                if (data && data.length > 0) {
                     data[0].Key = key;
                     this.curretnConditionsUpdate.next(data[0]);
                 } else {
-                    this.curretnConditionsUpdate.error(false);
+                    const error = {
+                        Message: 'currentconditions api error'
+                    };
+                    this.curretnConditionsUpdate.error(error);
                 }
             }, error => {
-                this.curretnConditionsUpdate.error(false);
+                this.curretnConditionsUpdate.error(error);
             });
         } else {
             this.http.get<any>(BACKEND_URL + 'currentconditions/v1/' + key + queryParams)
             .subscribe((data) => {
-                if (data) {
+                if (data && data.length > 0) {
                     data[0].Key = key;
                     this.curretnConditionsUpdate.next(data[0]);
                 } else {
-                    this.curretnConditionsUpdate.error(false);
+                    const error = {
+                        Message: 'currentconditions api error'
+                    };
+                    this.curretnConditionsUpdate.error(error);
                 }
             }, error => {
-                this.curretnConditionsUpdate.error(false);
+                this.curretnConditionsUpdate.error(error);
             });
         }
     }
@@ -76,24 +85,30 @@ export class WeatherService {
         if (!environment.production) {
             this.http.get<IFiveDaysWeatherForecast>('assets/stubs/forecast/fiveDay')
             .subscribe((data) => {
-                if (data) {
+                if (data && data.DailyForecasts) {
                     this.fiveDaysForecastUpdate.next(data);
                 } else {
-                    this.fiveDaysForecastUpdate.error(false);
+                    const error = {
+                        Message: 'forecasts/v1/daily/5day api error'
+                    };
+                    this.fiveDaysForecastUpdate.error(error);
                 }
             }, error => {
-                this.fiveDaysForecastUpdate.error(false);
+                this.fiveDaysForecastUpdate.error(error);
             });
         } else {
             this.http.get<IFiveDaysWeatherForecast>(BACKEND_URL + 'forecasts/v1/daily/5day/' + key + queryParams)
             .subscribe((data) => {
-                if (data) {
+                if (data && data.DailyForecasts) {
                     this.fiveDaysForecastUpdate.next(data);
                 } else {
-                    this.fiveDaysForecastUpdate.error(false);
+                    const error = {
+                        Message: 'forecasts/v1/daily/5day api error'
+                    };
+                    this.fiveDaysForecastUpdate.error(error);
                 }
             }, error => {
-                this.fiveDaysForecastUpdate.error(false);
+                this.fiveDaysForecastUpdate.error(error);
             });
         }
     }

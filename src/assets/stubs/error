@@ -1,0 +1,5 @@
+{
+  "Code": "Unauthorized",
+  "Message": "Api Authorization failed",
+  "Reference": "/locations/v1/adminareas/1?apikey=SfBFsHGTU3GYr6eyeXRayxbGQyb9XS&offset=200"
+}
